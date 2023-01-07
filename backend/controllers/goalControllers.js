@@ -6,7 +6,7 @@ const Goal = require("../models/Goal");
  * @access Private
  */
 const getGoals = async (req, res) => {
-  const goals = await Goal.find({});
+  const goals = await Goal.find({ user: req.user.userId });
   res.status(200).json({ goals });
 };
 
@@ -16,7 +16,10 @@ const getGoals = async (req, res) => {
  * @access Private
  */
 const getSingleGoal = async (req, res) => {
-  const goal = await Goal.findById(req.params.id);
+  const goal = await Goal.findOne({
+    _id: req.params.id,
+    user: req.user.userId,
+  });
 
   if (!goal) {
     res.status(404);
@@ -39,7 +42,13 @@ const postGoals = async (req, res) => {
     throw new Error("Title field is required");
   }
 
-  const goal = await Goal.create({ title, dueDate, description, priority });
+  const goal = await Goal.create({
+    title,
+    dueDate,
+    description,
+    priority,
+    user: req.user.userId,
+  });
 
   res.status(200).json({ goal });
 };
@@ -50,17 +59,21 @@ const postGoals = async (req, res) => {
  * @access Private
  */
 const putGoals = async (req, res) => {
-  const updatedGoal = await Goal.findByIdAndUpdate(req.params.id, req.body, {
-    new: true,
-    runValidators: true,
-  });
+  const updatedGoal = await Goal.findOneAndUpdate(
+    { _id: req.params.id, user: req.user.userId },
+    req.body,
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
 
-  if (!goal) {
+  if (!updatedGoal) {
     res.status(404);
     throw new Error("Goal not found");
   }
 
-  res.status(201).json({ goal: updatedGoal });
+  res.status(200).json({ goal: updatedGoal });
 };
 
 /**
@@ -69,7 +82,10 @@ const putGoals = async (req, res) => {
  * @access Private
  */
 const deleteGoals = async (req, res) => {
-  const deletedGoal = await Goal.findByIdAndDelete(req.params.id);
+  const deletedGoal = await Goal.findOneAndDelete({
+    _id: req.params.id,
+    user: req.user.userId,
+  });
 
   if (!deletedGoal) {
     res.status(404);
