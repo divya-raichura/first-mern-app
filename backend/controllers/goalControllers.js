@@ -7,7 +7,7 @@ const Goal = require("../models/Goal");
  */
 const getGoals = async (req, res) => {
   const goals = await Goal.find({});
-  res.status(200).json(goals);
+  res.status(200).json({ goals });
 };
 
 /**
@@ -23,7 +23,7 @@ const getSingleGoal = async (req, res) => {
     throw new Error("Goal not found");
   }
 
-  res.status(200).json(goal);
+  res.status(200).json({ goal });
 };
 
 /**
@@ -41,7 +41,7 @@ const postGoals = async (req, res) => {
 
   const goal = await Goal.create({ title, dueDate, description, priority });
 
-  res.status(200).json(goal);
+  res.status(200).json({ goal });
 };
 
 /**
@@ -60,7 +60,7 @@ const putGoals = async (req, res) => {
     throw new Error("Goal not found");
   }
 
-  res.status(201).json(updatedGoal);
+  res.status(201).json({ goal: updatedGoal });
 };
 
 /**
@@ -76,7 +76,7 @@ const deleteGoals = async (req, res) => {
     throw new Error("Goal not found");
   }
 
-  res.status(200).json(deletedGoal);
+  res.status(200).json({ goal: deletedGoal });
 };
 
 module.exports = { getGoals, postGoals, putGoals, deleteGoals, getSingleGoal };

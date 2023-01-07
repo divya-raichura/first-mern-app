@@ -9,14 +9,14 @@ const {
 } = require("../controllers/goalControllers");
 
 /**
- * route: /
+ * route: /api/goals/
  * methods: get, post
  */
 router.get("/", getGoals);
 router.post("/", postGoals);
 
 /**
- * route: /:id
+ * route: /api/goals/:id
  * methods: get, put, delete
  */
 router.get("/:id", getSingleGoal);

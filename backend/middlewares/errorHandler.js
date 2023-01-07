@@ -14,9 +14,7 @@ const errorHandler = (err, req, res, next) => {
     customError.statusCode = 404;
   }
 
-  res.status(customError.statusCode);
-
-  res.json({
+  res.status(customError.statusCode).json({
     message: customError.msg,
     stack: process.env.NODE_ENV === "development" ? err.stack : null,
   });

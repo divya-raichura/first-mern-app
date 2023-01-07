@@ -1,22 +1,39 @@
+// server
 const express = require("express");
-const errorHandler = require("./middlewares/errorHandler");
-const notFound = require("./errors/not-found");
 require("dotenv").config();
 const port = process.env.PORT || 5000;
-const dbConnection = require("./db/db");
 require("express-async-errors");
-const goalRoutes = require("./routes/goalRoutes");
 
+// db
+const dbConnection = require("./db/db");
+
+// handlers import
+const protect = require("./middlewares/authMiddleware");
+const errorHandler = require("./middlewares/errorHandler");
+const notFound = require("./errors/not-found");
+
+// routes import
+const authRoutes = require("./routes/authRoutes");
+const goalRoutes = require("./routes/goalRoutes");
+const userRoutes = require("./routes/userRoutes");
+
+// express app
 const app = express();
 
+// middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use("/api/goals", goalRoutes);
+// routes
+app.use("/api/auth", authRoutes);
+app.use("/api/goals", protect, goalRoutes);
+app.use("/api/user/", protect, userRoutes);
 
+// handlers
 app.use(notFound);
 app.use(errorHandler);
 
+// server
 async function startServer() {
   try {
     await dbConnection(process.env.MONGO_URI);
