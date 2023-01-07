@@ -8,10 +8,6 @@ const goalRoutes = require("./routes/goalRoutes");
 
 const app = express();
 
-const e = new Error("this is error");
-e.statusCode = 301;
-console.log(e);
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
