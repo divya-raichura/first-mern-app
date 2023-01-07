@@ -5,6 +5,7 @@ const {
   deleteGoals,
   postGoals,
   putGoals,
+  getSingleGoal,
 } = require("../controllers/goalControllers");
 
 /**
@@ -16,8 +17,9 @@ router.post("/", postGoals);
 
 /**
  * route: /:id
- * methods: put, delete
+ * methods: get, put, delete
  */
+router.get("/:id", getSingleGoal);
 router.put("/:id", putGoals);
 router.delete("/:id", deleteGoals);
 
