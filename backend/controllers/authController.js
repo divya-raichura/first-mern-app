@@ -7,7 +7,6 @@ const bcrypt = require("bcryptjs");
 // @access  Public
 const register = async (req, res) => {
   const { email, name, password } = req.body;
-  console.log("register request");
 
   if (!email || !name || !password) {
     res.status(400);

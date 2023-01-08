@@ -1,4 +1,4 @@
 function Dashboard() {
-  return <h1>Dashboard</h1>;
+  return <div className="text-center text-3xl text-sky-500">Dashboard</div>;
 }
 export default Dashboard;

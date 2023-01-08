@@ -1,20 +1,71 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { register } from "../features/auth/authSlice";
+import { useSelector, useDispatch } from "react-redux";
+import { PulseLoader } from "react-spinners";
+import { useEffect } from "react";
+import { reset } from "../features/auth/authSlice";
 
 function Register() {
-  const [user, setUser] = useState({
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const { user, isError, isLoading, isSuccess, message } = useSelector(
+    (state) => state.auth
+  );
+
+  const [userData, setUserData] = useState({
     name: "",
     email: "",
     password: "",
     password2: "",
   });
 
-  function submitHandler(e) {
-    e.preventDefault();
-  }
+  useEffect(() => {
+    if (isError) {
+      toast.error(message);
+    }
+
+    if (isSuccess || user) {
+      navigate("/dashboard");
+    }
+
+    // does code run after naigate? yes
+
+    dispatch(reset());
+  }, [user, isError, isSuccess, message, dispatch, navigate]);
 
   function eventHandler(e) {
-    setUser((prevState) => ({ ...prevState, [e.target.name]: e.target.value }));
+    setUserData((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  }
+
+  function submitHandler(e) {
+    e.preventDefault();
+    const { name, email, password, password2 } = userData;
+
+    if (!name || !email || !password || !password2) {
+      toast.error("Please fill all fields");
+    } else if (userData.password.length < 6) {
+      toast.error("Password length should be greater than six characters");
+    } else if (userData.password != userData.password2) {
+      toast.error("Passwords do not match");
+    } else {
+      // @resource: https://redux.js.org/tutorials/essentials/part-2-app-structure
+      // Any time an action has been dispatched and the Redux store has been updated, useSelector will re-run our selector function. If the selector returns a different value than last time, useSelector will make sure our component re-renders with the new value.
+      dispatch(register(userData));
+    }
+  }
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center mt-36 w-3/4 m-auto">
+        <PulseLoader color="rgb(2 132 199 " />
+      </div>
+    );
   }
 
   return (
@@ -23,7 +74,7 @@ function Register() {
         <h1 className="">Register</h1>
       </div>
       <form
-        className="bg-white w-3/5 mx-auto shadow-md rounded-lg md:w-1/2 px-4 pt-2 pb-4 sm:px-8 sm:pt-6 sm:pb-8"
+        className="bg-white w-3/5 mx-auto shadow-2xl rounded-xl md:w-1/2 px-4 pt-2 pb-4 sm:px-8 sm:pt-6 sm:pb-8"
         onSubmit={submitHandler}
       >
         <div className="mb-10">
@@ -39,7 +90,7 @@ function Register() {
             type="text"
             id="nameId"
             name="name"
-            value={user.name}
+            value={userData.name}
             onChange={eventHandler}
           />
         </div>
@@ -54,7 +105,7 @@ function Register() {
             type="email"
             id="emailId"
             name="email"
-            value={user.email}
+            value={userData.email}
             className="shadow border rounded w-full py-2 px-3 focus:outline-sky-200 text-gray-700 leading-tight  "
             placeholder="Email"
             onChange={eventHandler}
@@ -71,7 +122,7 @@ function Register() {
             type="password"
             id="passwordId"
             name="password"
-            value={user.password}
+            value={userData.password}
             onChange={eventHandler}
             className="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-sky-200"
             placeholder="Password"
@@ -90,7 +141,7 @@ function Register() {
             type="password"
             id="password2Id"
             name="password2"
-            value={user.password2}
+            value={userData.password2}
             onChange={eventHandler}
           />
         </div>
@@ -109,4 +160,5 @@ function Register() {
     </section>
   );
 }
+
 export default Register;

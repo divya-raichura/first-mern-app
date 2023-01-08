@@ -21,7 +21,7 @@ function Login() {
         <h1 className="">Login</h1>
       </div>
       <form
-        className="bg-white w-3/5 mx-auto shadow-md rounded-lg md:w-1/2 px-4 pt-2 pb-4 sm:px-8 sm:pt-6 sm:pb-8"
+        className="bg-white w-3/5 mx-auto shadow-2xl rounded-xl md:w-1/2 px-4 pt-2 pb-4 sm:px-8 sm:pt-6 sm:pb-8"
         onSubmit={submitHandler}
       >
         <div className="mb-10">
