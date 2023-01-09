@@ -69,9 +69,9 @@ function Register() {
   }
 
   return (
-    <section>
-      <div className="text-center m-6 p-6 font-bold text-slate-900 text-4xl">
-        <h1 className="">Register</h1>
+    <section className="flex flex-col pt-14 h-5/6">
+      <div className="font-bold text-slate-900 text-4xl text-center p-4 mb-2">
+        <h1>Register</h1>
       </div>
       <form
         className="bg-white w-3/5 mx-auto shadow-2xl rounded-xl md:w-1/2 px-4 pt-2 pb-4 sm:px-8 sm:pt-6 sm:pb-8"

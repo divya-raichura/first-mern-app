@@ -3,7 +3,7 @@ import Navbar from "./Navbar";
 
 function SharedLayout() {
   return (
-    <div className="px-20">
+    <div className="w-5/6 m-auto h-full">
       <Navbar />
       <Outlet />
     </div>

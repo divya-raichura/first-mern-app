@@ -70,8 +70,8 @@ function Login() {
   }
 
   return (
-    <section>
-      <div className="text-center m-6 p-6 font-bold text-slate-900 text-4xl">
+    <section className="flex flex-col pt-14 h-5/6">
+      <div className="font-bold text-slate-900 text-4xl text-center p-4 mb-2">
         <h1 className="">Login</h1>
       </div>
       <form

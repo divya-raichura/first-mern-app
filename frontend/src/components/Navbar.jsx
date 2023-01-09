@@ -13,7 +13,7 @@ function Navbar() {
   }
 
   return (
-    <header className="pt-8 mb-6 text-sm flex items-center justify-between font-semibold text-slate-200 leading-6">
+    <header className="pt-6 text-sm flex items-center justify-between font-semibold text-slate-200 leading-6">
       <div className="text-slate-900 text-4xl">
         <Link to="/">App</Link>
       </div>
