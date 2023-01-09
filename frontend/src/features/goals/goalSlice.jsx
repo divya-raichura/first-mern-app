@@ -18,20 +18,20 @@ export const createGoal = createAsyncThunk(
         user: { token },
       },
     } = thunkAPI.getState();
-    return await goalService.createGoal(data, token);
+    return await goalService.createGoal(data, token, thunkAPI);
   }
 );
 
 // read
 export const readGoals = createAsyncThunk(
   "goals/readGoals",
-  async (data, thunkAPI) => {
+  async (_, thunkAPI) => {
     const {
       auth: {
         user: { token },
       },
     } = thunkAPI.getState();
-    return await goalService.readGoals(data, token);
+    return await goalService.readGoals(token, thunkAPI);
   }
 );
 
@@ -42,28 +42,22 @@ export const updateGoal = createAsyncThunk(
     const {
       auth: {
         user: { token },
-        user: {
-          user: { userId },
-        },
       },
     } = thunkAPI.getState();
-    return await goalService.updateGoal(userId, data, token);
+    return await goalService.updateGoal(data, token, thunkAPI);
   }
 );
 
 // delete
 export const deleteGoal = createAsyncThunk(
   "goals/deleteGoal",
-  async (data, thunkAPI) => {
+  async (goalId, thunkAPI) => {
     const {
       auth: {
         user: { token },
-        user: {
-          user: { userId },
-        },
       },
     } = thunkAPI.getState();
-    return await goalService.deleteGoal(userId, token);
+    return await goalService.deleteGoal(goalId, token, thunkAPI);
   }
 );
 
@@ -77,21 +71,73 @@ const goalSlice = createSlice({
   extraReducers: (builder) => {
     builder
       // create
-      .addCase(createGoal.pending, (state) => {})
-      .addCase(createGoal.fulfilled, (state) => {})
-      .addCase(createGoal.rejected, (state) => {})
+      .addCase(createGoal.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(createGoal.fulfilled, (state, action) => {
+        state.isSuccess = true;
+        state.isLoading = false;
+        state.goals.push(action.payload);
+      })
+      .addCase(createGoal.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
       // read
-      .addCase(readGoals.pending, (state) => {})
-      .addCase(readGoals.fulfilled, (state) => {})
-      .addCase(readGoals.rejected, (state) => {})
+      .addCase(readGoals.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(readGoals.fulfilled, (state, action) => {
+        state.isSuccess = true;
+        state.isLoading = false;
+        state.goals = action.payload;
+      })
+      .addCase(readGoals.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        console.log("action", action, action.payload);
+        state.message = action.payload;
+      })
       // update
-      .addCase(updateGoal.pending, (state) => {})
-      .addCase(updateGoal.fulfilled, (state) => {})
-      .addCase(updateGoal.rejected, (state) => {})
+      .addCase(updateGoal.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateGoal.fulfilled, (state, action) => {
+        state.isSuccess = true;
+        state.isLoading = false;
+        // find goal to update
+        const updatedGoals = state.goals.map((item) => {
+          if (item._id !== action.payload._id) {
+            // isn't the item we care about
+            return item;
+          }
+          return action.payload;
+        });
+        state.goals = updatedGoals;
+      })
+      .addCase(updateGoal.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
       // delete
-      .addCase(deleteGoal.pending, (state) => {})
-      .addCase(deleteGoal.fulfilled, (state) => {})
-      .addCase(deleteGoal.rejected, (state) => {});
+      .addCase(deleteGoal.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(deleteGoal.fulfilled, (state, action) => {
+        state.isSuccess = true;
+        state.isLoading = false;
+        // find goal and delete it
+        state.goals = state.goals.filter(
+          (item) => item._id !== action.payload.id
+        );
+      })
+      .addCase(deleteGoal.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      });
   },
 });
 

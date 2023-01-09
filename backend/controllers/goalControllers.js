@@ -40,6 +40,8 @@ const postGoals = async (req, res) => {
     throw new Error("Title field is required");
   }
 
+  req.body.user = req.user.userId;
+
   const goal = await Goal.create(req.body);
 
   res.status(200).json({ goal });
@@ -84,7 +86,7 @@ const deleteGoals = async (req, res) => {
     throw new Error("Goal not found");
   }
 
-  res.status(200).json({ goal: deletedGoal });
+  res.status(200).json({ id: req.params.id });
 };
 
 module.exports = { getGoals, postGoals, putGoals, deleteGoals, getSingleGoal };

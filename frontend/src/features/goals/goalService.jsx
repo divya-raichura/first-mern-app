@@ -3,7 +3,7 @@ import axios from "axios";
 const API_GOALS_URL = "/api/goals";
 
 // create
-const createGoal = async (goalData, token) => {
+const createGoal = async (goalData, token, thunkAPI) => {
   try {
     const config = {
       headers: {
@@ -13,19 +13,22 @@ const createGoal = async (goalData, token) => {
 
     const { data } = await axios.post(API_GOALS_URL, goalData, config);
 
-    return data;
+    return data.goal;
   } catch (error) {
+    console.log("error", error);
     const message =
       (error.response && error.response.data && error.response.data.message) ||
       error.message ||
       error.toString();
+
+    console.log("message", message);
 
     return thunkAPI.rejectWithValue(message);
   }
 };
 
 // read goals
-const getGoals = async (_, token) => {
+const readGoals = async (token, thunkAPI) => {
   try {
     const config = {
       headers: {
@@ -35,19 +38,21 @@ const getGoals = async (_, token) => {
 
     const { data } = await axios.get(API_GOALS_URL, config);
 
-    return data;
+    return data.goals;
   } catch (error) {
+    console.log("error", error);
     const message =
       (error.response && error.response.data && error.response.data.message) ||
       error.message ||
       error.toString();
 
+    console.log("message", message);
     return thunkAPI.rejectWithValue(message);
   }
 };
 
 // update goals
-const updateGoal = async (id, goalData, token) => {
+const updateGoal = async ({ id, goalData }, token, thunkAPI) => {
   try {
     const config = {
       headers: {
@@ -61,7 +66,7 @@ const updateGoal = async (id, goalData, token) => {
       config
     );
 
-    return data;
+    return data.goal;
   } catch (error) {
     const message =
       (error.response && error.response.data && error.response.data.message) ||
@@ -73,7 +78,7 @@ const updateGoal = async (id, goalData, token) => {
 };
 
 // delete goal
-const deleteGoal = async (id, token) => {
+const deleteGoal = async (id, token, thunkAPI) => {
   try {
     const config = {
       headers: {
@@ -83,7 +88,7 @@ const deleteGoal = async (id, token) => {
 
     const { data } = await axios.delete(API_GOALS_URL + `/${id}`, config);
 
-    return data;
+    return data.goal;
   } catch (error) {
     const message =
       (error.response && error.response.data && error.response.data.message) ||
@@ -96,7 +101,7 @@ const deleteGoal = async (id, token) => {
 
 export const goalService = {
   createGoal,
-  getGoals,
+  readGoals,
   updateGoal,
   deleteGoal,
 };

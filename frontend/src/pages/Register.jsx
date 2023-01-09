@@ -63,7 +63,7 @@ function Register() {
   if (isLoading) {
     return (
       <div className="flex justify-center mt-36 w-3/4 m-auto">
-        <PulseLoader color="rgb(2 132 199 " />
+        <PulseLoader color="rgb(2 132 199)" />
       </div>
     );
   }

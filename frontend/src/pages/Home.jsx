@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import { PulseLoader } from "react-spinners";
+
 function Home() {
   return (
     <div className="">
