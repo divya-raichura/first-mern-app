@@ -29,6 +29,7 @@ function App() {
           </Route>
           <Route path="*" element={<Error />} />
         </Routes>
+      </BrowserRouter>
         <ToastContainer
           position="top-center"
           autoClose={2000}
@@ -41,7 +42,6 @@ function App() {
           pauseOnHover
           theme="light"
         />
-      </BrowserRouter>
     </>
   );
 }

@@ -1,11 +1,29 @@
 import axios from "axios";
 
-const API_URL = "/api/auth/register";
+const API_REGISTER_URL = "/api/auth/register";
+const API_LOGIN_URL = "/api/auth/login";
 
 // Register user
 const register = async (userData, thunkAPI) => {
   try {
-    const { data } = await axios.post(API_URL, userData);
+    const { data } = await axios.post(API_REGISTER_URL, userData);
+
+    localStorage.setItem("user", JSON.stringify(data));
+
+    return data;
+  } catch (error) {
+    const message =
+      (error.response && error.response.data && error.response.data.message) ||
+      error.message ||
+      error.toString();
+    return thunkAPI.rejectWithValue(message);
+  }
+};
+
+// Login user
+const login = async (userData, thunkAPI) => {
+  try {
+    const { data } = await axios.post(API_LOGIN_URL, userData);
 
     localStorage.setItem("user", JSON.stringify(data));
 
@@ -26,6 +44,7 @@ const logout = () => {
 
 const authService = {
   register,
+  login,
   logout,
 };
 

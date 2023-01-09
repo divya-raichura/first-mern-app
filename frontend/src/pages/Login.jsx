@@ -1,18 +1,72 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { login } from "../features/auth/authSlice";
+import { useSelector, useDispatch } from "react-redux";
+import { PulseLoader } from "react-spinners";
+import { useEffect } from "react";
+import { reset } from "../features/auth/authSlice";
 
 function Login() {
-  const [user, setUser] = useState({
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const { user, isError, isLoading, isSuccess, message } = useSelector(
+    (state) => state.auth
+  );
+
+  const [userData, setUserData] = useState({
     email: "",
     password: "",
   });
 
-  function submitHandler(e) {
-    e.preventDefault();
-  }
+  // ?????????????? why not use if statement like isLoading
+  // because everytime the component is rendered, we want to check
+  // if user is logged in? if yes we want to redirect
+  // yes its true that useSelector also rerenders but, only when
+  // the data recieved from selector changes
+  // so whenever someone visits page after logging, data is not changed
+  useEffect(() => {
+    if (isError) {
+      toast.error(message);
+    }
+
+    if (isSuccess || user) {
+      // why 2 tinmes ?????????????????? : toast.info('')
+      toast.info("You are logged in", {
+        toastId: "success1",
+      });
+      navigate("/dashboard");
+    }
+
+    // why 2 times ??????????????????
+    dispatch(reset());
+  }, [user, isError, isSuccess, message]);
 
   function eventHandler(e) {
-    setUser((prevState) => ({ ...prevState, [e.target.name]: e.target.value }));
+    setUserData((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  }
+
+  function submitHandler(e) {
+    e.preventDefault();
+    const { email, password } = userData;
+
+    if (!email || !password) {
+      toast.error("Please fill all fields");
+    } else {
+      dispatch(login(userData));
+    }
+  }
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center mt-36 w-3/4 m-auto">
+        <PulseLoader color="rgb(2 132 199 " />
+      </div>
+    );
   }
 
   return (
@@ -35,7 +89,7 @@ function Login() {
             type="email"
             id="emailId"
             name="email"
-            value={user.email}
+            value={userData.email}
             className="shadow border rounded w-full py-2 px-3 focus:outline-sky-200 text-gray-700 leading-tight  "
             placeholder="Email"
             onChange={eventHandler}
@@ -52,7 +106,7 @@ function Login() {
             type="password"
             id="passwordId"
             name="password"
-            value={user.password}
+            value={userData.password}
             onChange={eventHandler}
             className="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-sky-200"
             placeholder="Password"
@@ -66,11 +120,12 @@ function Login() {
             className="font-bold text-sm text-blue-500 hover:text-blue-800"
             to="/register"
           >
-            Not a user?
+            New user?
           </Link>
         </div>
       </form>
     </section>
   );
 }
+
 export default Login;
