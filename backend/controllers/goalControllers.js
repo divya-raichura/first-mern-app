@@ -35,20 +35,12 @@ const getSingleGoal = async (req, res) => {
  * @access Private
  */
 const postGoals = async (req, res) => {
-  const { title, dueDate, description, priority } = req.body;
-
-  if (!title) {
+  if (!req.body.title) {
     res.status(400);
     throw new Error("Title field is required");
   }
 
-  const goal = await Goal.create({
-    title,
-    dueDate,
-    description,
-    priority,
-    user: req.user.userId,
-  });
+  const goal = await Goal.create(req.body);
 
   res.status(200).json({ goal });
 };
