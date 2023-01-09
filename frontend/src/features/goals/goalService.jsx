@@ -88,7 +88,7 @@ const deleteGoal = async (id, token, thunkAPI) => {
 
     const { data } = await axios.delete(API_GOALS_URL + `/${id}`, config);
 
-    return data.goal;
+    return data.id;
   } catch (error) {
     const message =
       (error.response && error.response.data && error.response.data.message) ||

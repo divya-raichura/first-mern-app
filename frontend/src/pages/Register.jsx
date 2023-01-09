@@ -33,7 +33,7 @@ function Register() {
 
     // does code run after naigate? yes
 
-    dispatch(reset());
+    return () => dispatch(reset());
   }, [user, isError, isSuccess, message, dispatch, navigate]);
 
   function eventHandler(e) {

@@ -1,4 +1,9 @@
-function GoalItem({ title }) {
+import { useDispatch } from "react-redux";
+import { deleteGoal } from "../features/goals/goalSlice";
+
+function GoalItem({ _id, title }) {
+  const dispatch = useDispatch();
+
   return (
     <li className="bg-white border-2 mb-3 h-16 flex items-center justify-between">
       <div className="h-full flex items-center justify-center">
@@ -11,7 +16,10 @@ function GoalItem({ title }) {
         <button className="bg-gray-600 text-white font-semibold p-4 h-full">
           <EditIcon />
         </button>
-        <button className="bg-red-400 text-white font-semibold p-4 h-full">
+        <button
+          onClick={() => dispatch(deleteGoal(_id))}
+          className="bg-red-400 text-white font-semibold p-4 h-full"
+        >
           <CancelIcon />
         </button>
       </div>

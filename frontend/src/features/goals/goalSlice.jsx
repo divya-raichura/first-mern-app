@@ -129,9 +129,7 @@ const goalSlice = createSlice({
         state.isSuccess = true;
         state.isLoading = false;
         // find goal and delete it
-        state.goals = state.goals.filter(
-          (item) => item._id !== action.payload.id
-        );
+        state.goals = state.goals.filter((goal) => goal._id !== action.payload);
       })
       .addCase(deleteGoal.rejected, (state, action) => {
         state.isLoading = false;

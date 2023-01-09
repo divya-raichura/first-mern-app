@@ -40,7 +40,7 @@ function Login() {
     }
 
     // why 2 times ??????????????????
-    dispatch(reset());
+    return () => dispatch(reset());
   }, [user, isError, isSuccess, message]);
 
   function eventHandler(e) {
