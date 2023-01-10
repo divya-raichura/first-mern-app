@@ -52,7 +52,7 @@ const readGoals = async (token, thunkAPI) => {
 };
 
 // update goals
-const updateGoal = async ({ id, goalData }, token, thunkAPI) => {
+const updateGoal = async (goalData, token, thunkAPI) => {
   try {
     const config = {
       headers: {
@@ -61,7 +61,7 @@ const updateGoal = async ({ id, goalData }, token, thunkAPI) => {
     };
 
     const { data } = await axios.put(
-      API_GOALS_URL + `/${id}`,
+      API_GOALS_URL + `/${goalData._id}`,
       goalData,
       config
     );

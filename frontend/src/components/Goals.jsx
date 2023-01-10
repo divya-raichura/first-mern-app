@@ -36,9 +36,9 @@ function Goals() {
   return (
     <article className="mt-16 w-full">
       {goals && goals.length > 0 && (
-        <ul className="flex flex-col w-5/6 m-auto">
+        <ul className="flex flex-col sm:w-3/4 md:w-2/3 m-auto">
           {goals.map((item) => {
-            return <GoalItem key={item._id} {...item} />;
+            return <GoalItem key={item._id} goal={item} />;
           })}
         </ul>
       )}

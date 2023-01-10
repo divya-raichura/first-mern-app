@@ -56,7 +56,7 @@ function Register() {
     } else {
       // @resource: https://redux.js.org/tutorials/essentials/part-2-app-structure
       // Any time an action has been dispatched and the Redux store has been updated, useSelector will re-run our selector function. If the selector returns a different value than last time, useSelector will make sure our component re-renders with the new value.
-      dispatch(register(userData));
+      return () => dispatch(register(userData));
     }
   }
 

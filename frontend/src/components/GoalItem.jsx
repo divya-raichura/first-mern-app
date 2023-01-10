@@ -1,30 +1,101 @@
+import { useRef } from "react";
+import { useEffect } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { deleteGoal } from "../features/goals/goalSlice";
+import { deleteGoal, updateGoal } from "../features/goals/goalSlice";
 
-function GoalItem({ _id, title }) {
+function GoalItem({ goal }) {
+  const { _id, title, completed } = goal;
+
+  const refContainer = useRef(null);
+  const [editing, setEditing] = useState(false);
+  const [textValue, setTextValue] = useState(title);
+
+  useEffect(() => {
+    if (editing) refContainer.current.focus();
+  }, [editing]);
+
   const dispatch = useDispatch();
 
+  function submitHandler(e) {
+    e.preventDefault();
+    dispatch(updateGoal({ ...goal, title: textValue }));
+    setEditing(false);
+  }
+
   return (
-    <li className="bg-white border-2 mb-3 h-16 flex items-center justify-between">
-      <div className="h-full flex items-center justify-center">
-        <button className="text-red-400 bg-red-50 font-semibold p-4 h-full">
-          <DoneIcon />
-        </button>
-        <h3 className="ml-3 ">{title}</h3>
-      </div>
-      <div className="h-full flex items-center justify-center">
-        <button className="bg-gray-600 text-white font-semibold p-4 h-full">
+    <li
+      style={{
+        backgroundColor: completed ? "rgb(187 247 208 / 1)" : "",
+      }}
+      className="bg-white text-slate-600 mb-4 flex h-12 shadow-md border rounded-md items-center justify-center"
+    >
+      <button
+        onClick={() => dispatch(updateGoal({ ...goal, completed: !completed }))}
+        className="mx-2 hover:bg-slate-100 p-1"
+        style={{
+          color: completed ? "rgb(34 197 94 / 1)" : "rgb(251 113 133 / 1)",
+        }}
+      >
+        <DoneIcon />
+      </button>
+      {editing ? (
+        <form className="grow" onSubmit={submitHandler}>
+          <input
+            type="text"
+            onChange={(e) => setTextValue(e.target.value)}
+            value={textValue}
+            ref={refContainer}
+            className="w-full h-full border-0 focus:outline-none bg-transparent border-b-2 border-solid border-b-gray-600"
+          />
+        </form>
+      ) : (
+        <h3
+          onClick={() => {
+            setEditing(true);
+          }}
+          className="grow cursor-pointer"
+        >
+          {title}
+        </h3>
+      )}
+      <div className="flex items-center mr-3">
+        <button
+          onClick={() => {
+            setTextValue(title);
+            setEditing(!editing);
+          }}
+          className="mr-3 text-gray-500 hover:bg-slate-100 p-1"
+        >
           <EditIcon />
         </button>
         <button
           onClick={() => dispatch(deleteGoal(_id))}
-          className="bg-red-400 text-white font-semibold p-4 h-full"
+          className="text-rose-500 hover:bg-slate-100 p-1"
         >
           <CancelIcon />
         </button>
       </div>
     </li>
   );
+
+  //       {editing ? (
+  //         <form className="w-full h-full flex items-center flex-auto">
+  //           <input
+  //             type="text"
+  //             className="p-3 focus:outline-none border-b-4 border-slate-500 w-full"
+  //             value={textValue}
+  //             onChange={(e) => setTextValue(e.target.value)}
+  //           />
+  //         </form>
+  //       ) : (
+  //         <h3
+  //           onClick={() => setEditing(!editing)}
+  //           className="ml-3 font-medium text-slate-500 cursor-pointer flex-auto"
+  //         >
+  //           {title}
+  //         </h3>
+  //       )}
 }
 
 const EditIcon = () => {
