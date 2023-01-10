@@ -14,8 +14,8 @@ function Navbar() {
 
   return (
     <header className="pt-6 text-sm flex items-center justify-between font-semibold text-slate-200 leading-6">
-      <div className="text-slate-900 text-4xl">
-        <Link to="/">App</Link>
+      <div className="text-slate-900 text-3xl">
+        <Link to="/">KaamKaro</Link>
       </div>
       <nav className="flex text-lg text-slate-700">
         <ul className="flex items-center space-x-8">
