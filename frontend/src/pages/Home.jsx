@@ -23,7 +23,7 @@ function Home() {
             </span>
           </p>
         </div>
-        <div className="mt-14 w-1/2 text-center">
+        {/* <div className="mt-14 w-1/2 text-center">
           <h1 className="text-2xl font-semibold">Tech Stack used</h1>
           <ul className="mt-14 text-md tracking-wide">
             <li className="mb-1">
@@ -40,7 +40,7 @@ function Home() {
               <span className="underline">Database</span> - Mongodb
             </li>
           </ul>
-        </div>
+        </div> */}
       </section>
     );
   }
@@ -70,7 +70,7 @@ function Home() {
           <span className="ml-1"> to continue</span>
         </p>
       </div>
-      <div className="mt-14 w-1/2 text-center">
+      {/* <div className="mt-14 w-1/2 text-center">
         <h1 className="text-2xl font-semibold">Tech Stack used</h1>
         <ul className="mt-14 text-md tracking-wide">
           <li className="mb-1">
@@ -87,7 +87,7 @@ function Home() {
             <span className="underline">Database</span> - Mongodb
           </li>
         </ul>
-      </div>
+      </div> */}
 
       {/* <div className="mt-10 w-1/2 text-center  absolute bottom-20">
         Talk is cheap, show me the code:
