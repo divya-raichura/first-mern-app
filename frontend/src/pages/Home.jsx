@@ -48,7 +48,7 @@ function Home() {
         </ul>
       </div>
 
-      <div className="mt-10 w-1/2 text-center  absolute bottom-20">
+      {/* <div className="mt-10 w-1/2 text-center  absolute bottom-20">
         Talk is cheap, show me the code:
         <a
           className="text-blue-500 hover:text-blue-400 ml-2"
@@ -56,7 +56,7 @@ function Home() {
         >
           repo
         </a>
-      </div>
+      </div> */}
     </section>
   );
 }
