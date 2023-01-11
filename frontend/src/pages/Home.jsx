@@ -2,8 +2,49 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { PulseLoader } from "react-spinners";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function Home() {
+  const { user } = useSelector((state) => state.auth);
+
+  if (user) {
+    return (
+      <section className="flex flex-col items-center justify-start mt-32 h-1/2">
+        <div>
+          <h1 className="text-4xl text-center">Hello! Welcome to the app 👋</h1>
+          <p className="text-md text-center my-4">
+            <span>
+              <Link
+                className="font-bold text-base text-blue-400 hover:text-blue-500"
+                to="/dashboard"
+              >
+                Dashboard
+              </Link>
+            </span>
+          </p>
+        </div>
+        <div className="mt-14 w-1/2 text-center">
+          <h1 className="text-2xl font-semibold">Tech Stack used</h1>
+          <ul className="mt-14 text-md tracking-wide">
+            <li className="mb-1">
+              React and Redux toolkit for{" "}
+              <span className="underline">frontend</span>
+            </li>
+            <li className="mb-1">
+              NodeJs/ExpressJs in <span className="underline">backend</span>
+            </li>
+            <li className="mb-1">
+              TailwindCSS for <span className="underline">styling</span>
+            </li>
+            <li className="mb-1">
+              <span className="underline">Database</span> - Mongodb
+            </li>
+          </ul>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="flex flex-col items-center justify-start mt-32 h-1/2">
       <div>
