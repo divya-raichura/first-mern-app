@@ -28,7 +28,7 @@ function GoalItem({ goal }) {
       style={{
         backgroundColor: completed ? "rgb(187 247 208 / 1)" : "",
       }}
-      className="bg-white text-slate-600 mb-4 flex h-12 shadow-md border rounded-md items-center justify-center"
+      className="bg-white text-slate-600 mb-4 flex h-12 shadow-md border rounded-md items-center justify-center overflow-auto"
     >
       <button
         onClick={() => dispatch(updateGoal({ ...goal, completed: !completed }))}
@@ -50,14 +50,15 @@ function GoalItem({ goal }) {
           />
         </form>
       ) : (
-        <h3
-          onClick={() => {
-            setEditing(true);
-          }}
-          className="grow cursor-pointer"
-        >
-          {title}
-        </h3>
+        <div className="grow cursor-pointer">
+          <h3
+            onClick={() => {
+              setEditing(true);
+            }}
+          >
+            {title}
+          </h3>
+        </div>
       )}
       <div className="flex items-center mr-3">
         <button

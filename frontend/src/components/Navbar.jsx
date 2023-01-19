@@ -14,7 +14,7 @@ function Navbar() {
 
   return (
     <header className="pt-6 text-sm flex items-center justify-between font-semibold text-slate-200 leading-6">
-      <div className="text-slate-900 text-3xl">
+      <div className="text-slate-900 text-xl sm:text-2xl md:text-3xl">
         <Link to="/">KaamKaro</Link>
       </div>
       <nav className="flex text-lg text-slate-700">
@@ -23,7 +23,7 @@ function Navbar() {
             <>
               <li>
                 <Link
-                  className="hover:text-sky-400 flex gap-x-2 active:text-sky-400"
+                  className="hover:text-sky-400 sm:flex gap-x-2 active:text-sky-400 hidden"
                   to="/dashboard"
                 >
                   <HomeIcon />
@@ -57,7 +57,7 @@ function Navbar() {
         <div>
           <button
             onClick={submitLogout}
-            className="bg-slate-700 hover:bg-slate-600 focus:outline-none text-white font-semibold h-10 px-2 rounded-lg w-full flex items-center justify-center sm:w-auto dark:highlight-white/20"
+            className="bg-slate-700 hover:bg-slate-600 focus:outline-none text-white font-semibold h-8 px-1 sm:h-10 sm:px-2 rounded-lg w-full flex items-center justify-center sm:w-auto dark:highlight-white/20"
           >
             <LogoutIcon />
             Logout
